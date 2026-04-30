@@ -2,15 +2,34 @@ import { useState } from 'react'
 
 function App() {
 
-    const [nome, setNome] = useState('')
-    const [username, setUsername] = useState('')
-    const [password, setPassword] = useState('')
-    const [specializzazione, setSpecializzazione] = useState('')
-    const [anniEsperienza, setAnniEsperienza] = useState('')
-    const [descrizione, setDescrizione] = useState('')
+    const [nome, setNome] = useState('andrea')
+    const [username, setUsername] = useState('langi')
+    const [password, setPassword] = useState('lanlan')
+    const [specializzazione, setSpecializzazione] = useState('frontend')
+    const [anniEsperienza, setAnniEsperienza] = useState('3')
+    const [descrizione, setDescrizione] = useState('non saprei')
 
     const handleSubmit = e => {
         e.preventDefault()
+        if (
+            !nome.trim() ||
+            !username.trim() ||
+            !password.trim() ||
+            !specializzazione.trim() ||
+            !anniEsperienza.trim() ||
+            anniEsperienza <= 0 ||
+            !descrizione.trim()
+        ) { alert('compila correttamente tutti i dati del form!!') }
+        {
+            console.log('form compilato correttamente, ecco i tuoi dati :', {
+                nome,
+                username,
+                password,
+                specializzazione,
+                anniEsperienza,
+                descrizione
+            });
+        }
     }
     return (
         <>
@@ -67,6 +86,7 @@ function App() {
                         onChange={e => setDescrizione(e.target.value)}
                     ></textarea>
                 </label>
+                <button type='submit'>iscriviti</button>
             </form>
         </>
     )

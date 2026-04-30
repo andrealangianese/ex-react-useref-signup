@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef } from 'react'
 
 const letters = "abcdefghijklmnopqrstuvwxyz";
 const numbers = "0123456789";
@@ -6,12 +6,15 @@ const symbols = "!@#$%^&*()-_=+[]{}|;:'\\,.<>?/`~";
 
 function App() {
 
-    const [nome, setNome] = useState('andrea')
-    const [username, setUsername] = useState('langi')
-    const [password, setPassword] = useState('lanlan')
-    const [specializzazione, setSpecializzazione] = useState('frontend')
-    const [anniEsperienza, setAnniEsperienza] = useState('3')
-    const [descrizione, setDescrizione] = useState('non saprei')
+    // campi controllati rimangono con usetstate
+    const [username, setUsername] = useState('langino')
+    const [password, setPassword] = useState('lanlan5!')
+    const [descrizione, setDescrizione] = useState('Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec qu')
+
+    // campi non controllati con useref
+    const specializzazioneRef = useRef()
+    const nomeRef = useRef()
+    const anniEsperienzaRef = useRef()
 
     // --- VALIDAZIONE USERNAME ---
     const isUsernameValid = useMemo(() => {
@@ -44,6 +47,12 @@ function App() {
     }, [descrizione]);
 
     const handleSubmit = e => {
+
+        // trasformo i dati per mantenere il controllo uguale a prima
+        const specializzazione = specializzazioneRef.current.value;
+        const anniEsperienza = anniEsperienzaRef.current.value;
+        const nome = nomeRef.current.value
+
         e.preventDefault()
         if (
             !nome.trim() ||
@@ -83,8 +92,7 @@ function App() {
                     <input
                         type="text"
                         placeholder='inserisci il tuo nome'
-                        value={nome}
-                        onChange={e => setNome(e.target.value)}
+                        ref={nomeRef}
                     />
                 </label>
                 <label >
@@ -118,7 +126,8 @@ function App() {
                 </label>
                 <label>
                     <h5>specializzazione</h5>
-                    <select value={specializzazione} onChange={e => setSpecializzazione(e.target.value)}>
+                    <select
+                        ref={specializzazioneRef}>
                         <option value="full stack">full stack</option>
                         <option value="frontend">frontend</option>
                         <option value="backend">backend</option>
@@ -129,8 +138,7 @@ function App() {
                     <input
                         type='number'
                         placeholder='inserisci la tua esperienza'
-                        value={anniEsperienza}
-                        onChange={e => setAnniEsperienza(e.target.value)}
+                        ref={anniEsperienzaRef}
                     />
                 </label>
                 <label>
